@@ -13,11 +13,42 @@ async def main(uri):
 
             try:
                 j = json.loads(pkt)
+                data = j['data']
+                event = j['event']
             except json.decoder.JSONDecodeError:
                 print(f"::: {pkt}")
                 continue
 
-            print(f"{j['SensorAddress']} ToF: {j['TimeOfFlight']}")
+            if event == 'bounce':
+                address = data['sensorAddress']
+                seq = data['sequenceNumber']
+                tof = data['timeOfFlight']
+                tofDelta = data['toFDelta']
+                impactTimestamp = int(data['impactTimestamp'])
+                isValid = data['isInvalid']
+                print(f"{address} {seq} ToF:{tof} tofDelta:{tofDelta} impactTimestamp:{impactTimestamp} isValid:{isValid}")
+
+            elif event == 'idle':
+                address = data['sensorAddress']
+                seq = data['sequenceNumber']
+                idleTimestamp = int(data['idleTimestamp'])
+                print(f"{address} {seq} idleTimestamp:{idleTimestamp}")
+
+            elif event == 'missing-data':
+                print(pkt)
+                address = data['sensorAddress']
+                missingSeqNumbers = data['missingSequenceNumbers']
+                print(f"{address} missingSeqNumbers:{missingSeqNumbers}")
+
+            elif event == 'sensor-reset':
+                print(pkt)
+                address = data['sensorAddress']
+                print(f"{address} SENSOR RESET - is there any other data to go here???")
+
+
+            else:
+                print(f"Unexpected event: {event} :: {pkt}")
+                assert(False)
 
 
 if __name__ == "__main__":

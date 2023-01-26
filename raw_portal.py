@@ -17,17 +17,36 @@ async def main(uri):
                 print(f"::: {pkt}")
                 continue
 
-            if 'IMPACT' in j['Type']:
-                print(f"{j['Address']} IMPACT at {j['Data']}")
+            if j['event'] == 'packet':
+                pkt = j['data']
+                vfEvent = pkt['type']
+                address = pkt['address']
+                seq = pkt['sequenceNumber']
+                data = pkt['data']
 
-            elif 'DEPART' in j['Type']:
-                print(f"{j['Address']} DEPART at {j['Data']}")
+                if 'IMPACT' in vfEvent:
+                    print(f"{address} {seq} IMPACT at {data}")
 
-            elif 'IDLE' in j['Type']:
-                print(f"{j['Address']} IDLE at {j['Data']}")
+                elif 'DEPART' in vfEvent:
+                    print(f"{address} {seq} DEPART at {data}")
+
+                elif 'IDLE' in vfEvent:
+                    print(f"{address} {seq} IDLE at {data}")
+
+                elif 'BATTERY_VOLTAGE' == vfEvent:
+                    print(f"{address} {seq} BATTERY_VOLTAGE is {data}mV")
+
+                elif 'NAME' == vfEvent:
+                    print(f"{address} {seq} NAME is {data}")
+
+                else:
+                    # Check we don't get any unimplemented packet types
+                    print(f"{address} {seq} {vfEvent} {data}")
+                    assert(False)
 
             else:
-                print(f"{j['Address']} {j['Type']} {j['Data']}")
+                print(f"Unexpected event: {j['event']}")
+                assert(False)
 
 
 if __name__ == "__main__":
