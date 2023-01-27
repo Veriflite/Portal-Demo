@@ -20,7 +20,7 @@ async def main(uri):
                 continue
 
             if event == 'bounce':
-                address = data['sensorAddress']
+                address = data['address']
                 seq = data['sequenceNumber']
                 tof = data['timeOfFlight']
                 tofDelta = data['toFDelta']
@@ -29,20 +29,20 @@ async def main(uri):
                 print(f"{address} {seq} ToF:{tof} tofDelta:{tofDelta} impactTimestamp:{impactTimestamp} isValid:{isValid}")
 
             elif event == 'idle':
-                address = data['sensorAddress']
+                address = data['address']
                 seq = data['sequenceNumber']
                 idleTimestamp = int(data['idleTimestamp'])
                 print(f"{address} {seq} idleTimestamp:{idleTimestamp}")
 
             elif event == 'missing-data':
                 print(pkt)
-                address = data['sensorAddress']
+                address = data['address']
                 missingSeqNumbers = data['missingSequenceNumbers']
                 print(f"{address} missingSeqNumbers:{missingSeqNumbers}")
 
             elif event == 'sensor-reset':
                 print(pkt)
-                address = data['sensorAddress']
+                address = data['address']
                 print(f"{address} SENSOR RESET - is there any other data to go here???")
 
 
