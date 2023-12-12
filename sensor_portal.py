@@ -44,8 +44,8 @@ async def main(uri):
             print(f"\tLifetime jumps: {sensorDetails['lifetimeJumps']}")
             print(f"\tLifetime age: {sensorDetails['lifetimeAge']}")
             print(f"\tUID: {sensorDetails['uniqueID']}")
-            print(f"\tAdvertising rate: {sensorDetails['advertisingRate']}")
-            print(f"\tHigh power mode: {sensorDetails['isHighPowerMode']}")
+            print(f"\tHigh power mode: {sensorDetails['isHighPower']}")
+            # print(f"\tAdvertising rate: {sensorDetails['advertisingRate']}")
             print()
 
 
